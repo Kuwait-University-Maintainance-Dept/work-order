@@ -48,7 +48,7 @@ html,body{margin:0;background:var(--bg);font-family:"Segoe UI",Tahoma,Arial,sans
 .f:focus{background:rgba(18,48,90,.10);box-shadow:0 0 0 1pt var(--gold)}
 .f::placeholder{color:rgba(18,48,90,.38);font-weight:400}
 textarea.f.has,textarea.f.has:focus{background-color:#fff}
-textarea.f{resize:none;padding:0 4pt;overflow:hidden;font-weight:400;white-space:pre-wrap;text-align:start}
+textarea.f{resize:none;padding:0 4pt;overflow:hidden;font-weight:700;white-space:pre-wrap;text-align:start}
 .f.pick:placeholder-shown{background-image:linear-gradient(45deg,transparent 50%,rgba(18,48,90,.55) 50%),linear-gradient(135deg,rgba(18,48,90,.55) 50%,transparent 50%);background-size:3.5pt 3.5pt;background-repeat:no-repeat;background-position:calc(100% - 6pt) 50%,calc(100% - 2.5pt) 50%;background-color:var(--hint)}
 
 /* dropdown */
@@ -212,7 +212,7 @@ td [data-f=item]{min-width:220px}
   <div class="wa-foot"><span id="waCode" dir="ltr"></span><button type="button" id="waClose">Close</button></div>
 </div></div>
 <div class="toast" id="toast"></div>
-<footer class="appver" dir="ltr"><div class="wmk">Made by Engineer Fawaz Alzayed · <bdi dir="rtl">فواز الزايد</bdi> · 2026</div><div class="cr">© <span id="cryear">2026</span> Fawaz Alzayed · All rights reserved</div><div id="appver">v0.2.1-beta</div></footer>
+<footer class="appver" dir="ltr"><div class="wmk">Made by Engineer Fawaz Alzayed · <bdi dir="rtl">فواز الزايد</bdi> · 2026</div><div class="cr">© <span id="cryear">2026</span> Fawaz Alzayed · All rights reserved</div><div id="appver">v0.2.2-beta</div></footer>
 
 <script>!function(t,e){"object"==typeof exports&&"undefined"!=typeof module?e(exports):"function"==typeof define&&define.amd?define(["exports"],e):e((t=t||self).PDFLib={})}(this,(function(t){"use strict";
 /*! *****************************************************************************
@@ -319,7 +319,7 @@ function fitSize(f,val){
   return Math.max(5,Math.min(fitMax(f),avail/w));
 }
 function wrapLines(text,fs,width){
-  mctx.font=fs+'px '+FONT;
+  mctx.font='bold '+fs+'px '+FONT;   /* description is bold (Fazeen 2026-10-23) */
   var out=[];
   String(text).split('\n').forEach(function(par){
     var words=par.split(/\s+/).filter(Boolean),line='';
@@ -924,7 +924,7 @@ function textPng(f,val,K){
   var c=document.createElement('canvas');c.width=Math.ceil(f.w*K);c.height=Math.ceil(f.h*K);
   var x=c.getContext('2d');x.scale(K,K);x.fillStyle=f.hdr?'#262626':INK;x.textBaseline='middle';
   if(f.area){
-    var Lo=descLayout(val);x.font=Lo.fs+'px '+FONT;
+    var Lo=descLayout(val);x.font='bold '+Lo.fs+'px '+FONT;
     Lo.lines.forEach(function(l,i){var ar=hasAr(l);x.direction=ar?'rtl':'ltr';x.textAlign=ar?'right':'left';x.fillText(l,ar?f.w-4.5:4.5,Lo.lh*(i+0.5)+0.4);});
   }else{
     var fs=fitSize(f,val);x.font='bold '+fs+'px '+FONT;x.direction=hasAr(val)?'rtl':'ltr';x.textAlign='left';
@@ -994,7 +994,7 @@ function wRun(text,sz,bold,color){
 }
 function wPara(text,sz){
   var ar=hasAr(text);
-  return '<w:p><w:pPr><w:pStyle w:val="TableParagraph"/>'+(ar?'<w:bidi/>':'')+'<w:spacing w:before="30"/><w:ind w:left="70" w:right="70"/>'+(ar?'<w:jc w:val="right"/>':'')+'</w:pPr>'+(text?wRun(text,sz||20,false):'')+'</w:p>';
+  return '<w:p><w:pPr><w:pStyle w:val="TableParagraph"/>'+(ar?'<w:bidi/>':'')+'<w:spacing w:before="30"/><w:ind w:left="70" w:right="70"/>'+(ar?'<w:jc w:val="right"/>':'')+'</w:pPr>'+(text?wRun(text,sz||20,true):'')+'</w:p>';
 }
 var TICK_ID=9000;
 function wTick(){
